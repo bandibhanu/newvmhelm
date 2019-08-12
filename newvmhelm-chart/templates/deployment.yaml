@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newvmhelm-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: newvmhelm
+  template:
+    metadata:
+      labels:
+        app: newvmhelm
+    spec:
+      containers:
+      - name: newvmhelm
+        image: newvmhelmcontainer.azurecr.io/bhanu9505508737/newvmhelm:#{Build.BuildId}#
+        ports:
+        - containerPort: 80
+        env:
+          - name: PODNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+      imagePullSecrets:
+      - name: bhanu9505508737
